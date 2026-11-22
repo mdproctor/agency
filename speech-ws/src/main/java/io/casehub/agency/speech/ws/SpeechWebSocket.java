@@ -62,7 +62,7 @@ public class SpeechWebSocket {
 
         java.util.function.Function<AssembledPrompt, String> generator    = null;
         SpeechSession.StreamingResponseGenerator             streamingGen = null;
-        if (agentProvider.isResolvable()) {
+        try { if (agentProvider.isResolvable()) {
             var agent = agentProvider.get();
             generator = prompt -> {
                 var config = prompt.model() != null
@@ -114,6 +114,9 @@ public class SpeechWebSocket {
                 }
                 return fullText.toString();
             };
+        } } catch (Exception e) {
+            System.getLogger("speech-ws").log(System.Logger.Level.WARNING,
+                    "LLM provider unavailable — text responses disabled: " + e.getMessage());
         }
 
         CorrectionHooks hooks = correctionHooks.isResolvable() ? correctionHooks.get() : null;
