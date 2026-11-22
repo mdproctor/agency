@@ -1,0 +1,10 @@
+FROM eclipse-temurin:22-jre
+
+RUN apt-get update && apt-get install -y --no-install-recommends lbzip2 && rm -rf /var/lib/apt/lists/*
+
+COPY target/casehub-agency-speech-demo-0.4-SNAPSHOT-runner.jar /app/app.jar
+
+WORKDIR /app
+EXPOSE 8080
+
+CMD ["java", "-Xmx2g", "--enable-native-access=ALL-UNNAMED", "-Djava.util.logging.manager=org.jboss.logmanager.LogManager", "-jar", "app.jar"]
