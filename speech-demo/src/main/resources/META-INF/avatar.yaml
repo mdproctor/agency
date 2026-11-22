@@ -7,13 +7,6 @@ min-playback-rate: 0.6
 
 tts:
   engines:
-    - type: vits
-      voices:
-        - lessac-medium
-        - { name: lessac-high, model: vits-piper-en_US-lessac-high }
-        - { name: amy, model: vits-piper-en_US-amy-medium }
-        - { name: ryan, model: vits-piper-en_US-ryan-high }
-        - { name: jenny, model: vits-piper-en_GB-jenny_dioco-medium }
     - type: sherpa
       voices:
         - lessac-medium
