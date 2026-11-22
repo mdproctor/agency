@@ -59,7 +59,7 @@ public class ModelProvisioningService {
         io.casehub.connectors.voice.sherpa.Provisioner.ensureQwen3Binary();
     }
 
-    void provisionQwen3Model() {io.casehub.connectors.voice.sherpa.Provisioner.ensureQwen3Model("0.6b-customvoice-q4");}
+    void provisionQwen3Model() {io.casehub.connectors.voice.sherpa.Provisioner.ensureQwen3Model("0.6b-customvoice");}
 
     private void provisionEntry(String key, Runnable provisioner) {
         statuses.put(key, ModelStatus.DOWNLOADING);
