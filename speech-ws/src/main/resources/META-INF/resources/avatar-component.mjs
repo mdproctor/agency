@@ -120,6 +120,15 @@ export class AvatarEngine {
     });
   }
 
+  setView(view) {
+    this._cameraView = view;
+    if (this._head) this._head.setView(view, true);
+  }
+
+  resetCamera() {
+    if (this._head) this._head.setView(this._cameraView, true);
+  }
+
   triggerGesture(name) {
     if (this._bodyAnim) this._bodyAnim.triggerGesture(name);
   }
