@@ -301,6 +301,7 @@ export class AvatarEngine {
     const firstChunk = !this._turnCuesAttached.has(key);
     if (firstChunk) this._turnCuesAttached.add(key);
     if (firstChunk && seg && seg.visemes && seg.visemes.length > 0) {
+      r.words = [seg.text || '']; r.wtimes = [0]; r.wdurations = [audioBuf.duration * 1000];
       r.visemes = []; r.vtimes = []; r.vdurations = [];
       for (const v of seg.visemes) {
         r.visemes.push(v.viseme); r.vtimes.push(v.startMs);
