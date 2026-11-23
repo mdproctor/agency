@@ -67,7 +67,7 @@
 </div>
 
 <script type="module">
-import { AvatarEngine, AvatarControls } from './avatar-component.mjs?v=4';
+import { AvatarEngine, AvatarControls } from './avatar-component.mjs?v=5';
 
 const chat = document.getElementById('chat');
 const msgInput = document.getElementById('msg');
@@ -93,7 +93,7 @@ const engine = new AvatarEngine(avatarContainer, {
     msgInput.disabled = false;
     sendBtn.disabled = false;
     micBtn.disabled = false;
-    try { await engine.initAvatar(); } catch (e) { console.warn('Avatar load:', e); }
+    try { await engine.initAvatar(); engine.setView('upper'); } catch (e) { console.warn('Avatar load:', e); }
   },
   onDisconnected: () => {
     msgInput.disabled = true;

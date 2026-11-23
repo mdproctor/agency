@@ -123,21 +123,25 @@ export class AvatarEngine {
   setView(view) {
     this._cameraView = view;
     if (!this._head) return;
-    this._head.setView(view);
     const h = this._head.avatarHeight || 1.6;
     const halfTan = Math.tan((this._head.camera.fov * Math.PI / 180) / 2);
-    if (this._head.cameraEnd && this._head.controlsEnd) {
-      const z = this._head.cameraEnd.z;
-      const topAlignY = h * 1.02 - z * halfTan;
-      if (view === 'full') {
-        const fz = (h * 1.9) / (2 * halfTan);
-        const fy = h * 1.05 - fz * halfTan;
-        const angle = 0.12;
-        this._head.cameraEnd.set(Math.sin(angle) * fz, fy, Math.cos(angle) * fz);
-        this._head.controlsEnd.set(0, fy, 0);
-      } else {
-        this._head.cameraEnd.y = topAlignY;
-        this._head.controlsEnd.y = topAlignY;
+    const headTop = h * 0.95;
+    if (view === 'full') {
+      const z = (h * 1.8) / (2 * halfTan);
+      const y = headTop - z * halfTan;
+      const angle = 0.1;
+      this._head.setView(view);
+      if (this._head.cameraEnd && this._head.controlsEnd) {
+        this._head.cameraEnd.set(Math.sin(angle) * z, y, Math.cos(angle) * z);
+        this._head.controlsEnd.set(0, y, 0);
+      }
+    } else {
+      this._head.setView(view);
+      if (this._head.cameraEnd && this._head.controlsEnd) {
+        const z = this._head.cameraEnd.length();
+        const y = headTop - z * halfTan;
+        this._head.cameraEnd.y = y;
+        this._head.controlsEnd.y = y;
       }
     }
   }
