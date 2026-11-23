@@ -5,8 +5,12 @@ RUN curl -fsSL https://rpm.nodesource.com/setup_22.x | bash - && yum install -y 
 RUN npm install -g @anthropic-ai/claude-code
 
 COPY target/casehub-agency-speech-demo-0.4-SNAPSHOT-runner.jar /app/app.jar
+RUN yum install -y shadow-utils && yum clean all && useradd -m -s /bin/bash avatar
+COPY src/main/resources/META-INF/eidos/agent-config.yaml /home/avatar/.casehub/agent-config.yaml
+RUN chown -R avatar:avatar /home/avatar/.casehub
 
 WORKDIR /app
+USER avatar
 EXPOSE 8080
 
 CMD ["java", "-Xmx2g", \
