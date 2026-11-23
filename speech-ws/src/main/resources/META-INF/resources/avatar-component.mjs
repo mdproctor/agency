@@ -122,11 +122,18 @@ export class AvatarEngine {
 
   setView(view) {
     this._cameraView = view;
-    if (this._head) this._head.setView(view, true);
+    if (!this._head) return;
+    this._head.setView(view, false);
+    if (this._head.camera) {
+      const adj = { full: { z: 1.6, y: 0.3 }, upper: { z: 1.0, y: 0.15 }, head: { z: 1.0, y: 0.08 } };
+      const a = adj[view] || { z: 1.0, y: 0 };
+      this._head.camera.position.z *= a.z;
+      this._head.camera.position.y -= a.y;
+    }
   }
 
   resetCamera() {
-    if (this._head) this._head.setView(this._cameraView, true);
+    this.setView(this._cameraView);
   }
 
   triggerGesture(name) {
