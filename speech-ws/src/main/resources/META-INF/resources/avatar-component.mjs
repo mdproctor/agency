@@ -130,9 +130,10 @@ export class AvatarEngine {
       const z = this._head.cameraEnd.z;
       const topAlignY = h * 1.02 - z * halfTan;
       if (view === 'full') {
-        const fz = (h * 1.4) / (2 * halfTan);
-        const fy = h * 1.02 - fz * halfTan;
-        this._head.cameraEnd.set(0, fy, fz);
+        const fz = (h * 1.9) / (2 * halfTan);
+        const fy = h * 1.05 - fz * halfTan;
+        const angle = 0.12;
+        this._head.cameraEnd.set(Math.sin(angle) * fz, fy, Math.cos(angle) * fz);
         this._head.controlsEnd.set(0, fy, 0);
       } else {
         this._head.cameraEnd.y = topAlignY;
