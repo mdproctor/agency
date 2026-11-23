@@ -123,12 +123,11 @@ export class AvatarEngine {
   setView(view) {
     this._cameraView = view;
     if (!this._head) return;
-    const h = this._head.avatarHeight || 1.6;
-    const halfTan = Math.tan((this._head.camera.fov * Math.PI / 180) / 2);
-    const headTop = h * 0.95;
     if (view === 'full') {
+      const h = this._head.avatarHeight || 1.6;
+      const halfTan = Math.tan((this._head.camera.fov * Math.PI / 180) / 2);
       const z = (h * 1.8) / (2 * halfTan);
-      const y = headTop - z * halfTan;
+      const y = h * 0.45;
       const angle = 0.1;
       this._head.setView(view);
       if (this._head.cameraEnd && this._head.controlsEnd) {
@@ -137,12 +136,6 @@ export class AvatarEngine {
       }
     } else {
       this._head.setView(view);
-      if (this._head.cameraEnd && this._head.controlsEnd) {
-        const z = this._head.cameraEnd.length();
-        const y = headTop - z * halfTan;
-        this._head.cameraEnd.y = y;
-        this._head.controlsEnd.y = y;
-      }
     }
   }
 
