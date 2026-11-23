@@ -97,7 +97,7 @@ export class AvatarEngine {
     if (this._head) return;
     this._head = new TalkingHead(this._container, {
       ttsEndpoint: null,
-      lipsyncModules: ['en'],
+      lipsyncModules: ['en'], lipsyncLang: 'en',
       cameraView: this._cameraView,
       cameraRotateEnable: true, cameraZoomEnable: true, cameraPanEnable: true,
       avatarIdleEyeContact: 0.4, avatarIdleHeadMove: 0.6,
@@ -108,6 +108,7 @@ export class AvatarEngine {
       url: './' + this._avatarModel, body: 'F',
       avatarMood: 'neutral', lipsyncLang: 'en'
     });
+    this._head.lipsyncLang = 'en';
     this._head.setMood('neutral');
     await this._initBodyAnimations();
   }
