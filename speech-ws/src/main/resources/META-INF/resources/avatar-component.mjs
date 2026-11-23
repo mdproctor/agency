@@ -298,9 +298,8 @@ export class AvatarEngine {
     const key = `${header.turnSeq}:${header.segmentIndex}`;
     const seg = this._pendingSegments.get(key);
     const r = { audio: audioBuf };
-    const firstChunk = !this._turnCuesAttached.has(key);
-    if (firstChunk) this._turnCuesAttached.add(key);
-    if (firstChunk && seg && seg.visemes && seg.visemes.length > 0) {
+    if (!this._turnCuesAttached.has(key) && seg && seg.visemes && seg.visemes.length > 0) {
+      this._turnCuesAttached.add(key);
       r.words = [seg.text || '']; r.wtimes = [0]; r.wdurations = [audioBuf.duration * 1000];
       r.visemes = []; r.vtimes = []; r.vdurations = [];
       for (const v of seg.visemes) {
@@ -308,6 +307,7 @@ export class AvatarEngine {
         r.vdurations.push(v.endMs - v.startMs);
       }
     }
+    const firstChunk = !this._turnCuesAttached.has(key);
     const markers = []; const mtimes = [];
     for (const cue of (firstChunk ? (seg?.cues || []) : [])) {
       if (cue.type === 'gesture' && this._bodyAnim) {
