@@ -53,6 +53,7 @@
       <button class="cam-btn" data-view="full">Full</button>
       <button class="cam-btn active" data-view="upper">Upper</button>
       <button class="cam-btn" data-view="head">Head</button>
+      <button class="cam-btn" id="cam-capture">Capture</button>
     </div>
   </div>
   <div id="chat-panel">
@@ -67,7 +68,7 @@
 </div>
 
 <script type="module">
-import { AvatarEngine, AvatarControls } from './avatar-component.mjs?v=8';
+import { AvatarEngine, AvatarControls } from './avatar-component.mjs?v=11';
 
 const chat = document.getElementById('chat');
 const msgInput = document.getElementById('msg');
@@ -102,12 +103,28 @@ const engine = new AvatarEngine(avatarContainer, {
   }
 });
 
+window.__engine = engine;
 const controls = new AvatarControls(document.getElementById('controls'), engine);
-document.querySelectorAll('.cam-btn').forEach(btn => {
+document.querySelectorAll('.cam-btn[data-view]').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     engine.setView(btn.dataset.view);
+  });
+});
+document.getElementById('cam-capture').addEventListener('click', () => {
+  if (!engine._head || !engine._head.camera || !engine._head.controls) { alert('Avatar not loaded'); return; }
+  const cam = engine._head.camera.position;
+  const tgt = engine._head.controls.target;
+  const h = engine._head.avatarHeight;
+  const active = document.querySelector('.cam-btn.active[data-view]');
+  const view = active ? active.dataset.view : 'unknown';
+  const data = { view, h: +h.toFixed(3), cam: { x: +cam.x.toFixed(3), y: +cam.y.toFixed(3), z: +cam.z.toFixed(3) }, target: { x: +tgt.x.toFixed(3), y: +tgt.y.toFixed(3), z: +tgt.z.toFixed(3) }, panel: { w: document.getElementById('avatar-container').clientWidth, h: document.getElementById('avatar-container').clientHeight } };
+  const json = JSON.stringify(data);
+  console.log('CAPTURE:', json);
+  navigator.clipboard.writeText(json).then(() => {
+    document.getElementById('cam-capture').textContent = 'Copied!';
+    setTimeout(() => { document.getElementById('cam-capture').textContent = 'Capture'; }, 1500);
   });
 });
 
